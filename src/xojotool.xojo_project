@@ -34,6 +34,7 @@ Class=XKProjectItemTag;XojoKit/XKProjectItemTag.xojo_code;&h00000000093227FF;&h0
 Interface=XKItemParser;XojoKit/XKItemParser.xojo_code;&h00000000114FA7FF;&h000000001C9BAFFF;false
 Class=XKXMLItemParser;XojoKit/XKXMLItemParser.xojo_code;&h0000000074F9F7FF;&h000000001C9BAFFF;false
 Class=XKRegex;XojoKit/XKRegex.xojo_code;&h000000004F7497FF;&h000000001C9BAFFF;false
+Module=RegisterPlugins;../../RegisterPlugins/RegisterPlugins.xojo_xml_code;&h00000000302747FF;&h0000000000000000;false
 MajorVersion=1
 MinorVersion=0
 SubVersion=0

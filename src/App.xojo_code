@@ -3,6 +3,13 @@ Protected Class App
 Inherits ConsoleApplication
 	#tag Event
 		Function Run(args() as String) As Integer
+		  // Register the MBS plugins.
+		  // If you have cloned this repository, you will need a module named `RegisterPlugins` containing
+		  // a method (`MBS`) that registers your MBS plugins.
+		  #If Not DebugBuild
+		    RegisterPlugins.MBS
+		  #EndIf
+		  
 		  App.SemanticVersion = New SemanticVersion(App.MajorVersion, App.MinorVersion, App.BugVersion)
 		  
 		  Var xojotool As String = ConsoleKit.CLIFormatted("xojotool", True, False, False, ConsoleKit.Colors.Green)
