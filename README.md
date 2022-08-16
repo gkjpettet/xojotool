@@ -10,8 +10,8 @@ Simple installation with Homebrew is offered for macOS.
 **macOS**  
 If you're using macOS you can use the excellent [Homebrew][homebrew] package manager to quickly install Roo:
 ```
-brew tap gkjpettet/homebrew-roo
-brew install roo
+brew tap gkjpettet/homebrew-xojotool
+brew install xojotool
 ```
 
 You can make sure that you've always got the latest version of Roo by running `brew update` in the Terminal. You'll know there's an update available if you see the following:
