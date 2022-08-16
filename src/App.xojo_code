@@ -193,10 +193,15 @@ Inherits ConsoleApplication
 		  Print("")
 		  
 		  // ===================
+		  // IDE VERSION
+		  // ===================
+		  Print("Saved with Xojo " + ConsoleKit.CLIBold(Project.RBProjectVersion))
+		  
+		  // ===================
 		  // LINE COUNTS
 		  // ===================
-		  Print(Project.CodeLineCount.ToString + " single lines of code.")
-		  Print(Project.CommentCount.ToString + " comment lines.")
+		  Print(Project.CodeLineCount.ToString + " single lines of code")
+		  Print(Project.CommentCount.ToString + " comment lines")
 		  Print("")
 		  
 		  // ===================
@@ -307,10 +312,15 @@ Inherits ConsoleApplication
 		  Print("")
 		  
 		  // ===================
+		  // IDE VERSION
+		  // ===================
+		  Print("Saved with Xojo " + ConsoleKit.CLIBold(Project.RBProjectVersion))
+		  
+		  // ===================
 		  // LINE COUNTS
 		  // ===================
-		  Print(Project.CodeLineCount.ToString + " single lines of code.")
-		  Print(Project.CommentCount.ToString + " comment lines.")
+		  Print(Project.CodeLineCount.ToString + " single lines of code")
+		  Print(Project.CommentCount.ToString + " comment lines")
 		  Print("")
 		  
 		  // ===================
