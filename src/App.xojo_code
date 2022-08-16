@@ -112,7 +112,7 @@ Inherits ConsoleApplication
 		  Var f As FolderItem = SpecialFolder.Desktop.Child(System.Ticks.ToString + ".csv")
 		  
 		  Var tout As TextOutputStream = TextOutputStream.Create(f)
-		  For Each item As XKItem In Project.Items
+		  For Each item As XojoKit.XKItem In Project.Items
 		    
 		    If item.Type = XojoKit.ItemTypes.Folder Then
 		      Continue
@@ -155,7 +155,7 @@ Inherits ConsoleApplication
 		  
 		  #Pragma BreakOnExceptions False
 		  
-		  Project = New XKProject(ProjectFile)
+		  Project = New XojoKit.XKProject(ProjectFile)
 		  
 		  Project.Options.ExcludePrivate = False
 		  
@@ -163,7 +163,7 @@ Inherits ConsoleApplication
 		    
 		    Project.Parse
 		    
-		  Catch e As XKException
+		  Catch e As XojoKit.XKException
 		    
 		    Error(e.Message)
 		    
@@ -212,7 +212,7 @@ Inherits ConsoleApplication
 		  Var longestType As Integer = 9
 		  Var longestMembers As Integer = 7 //" Members" length.
 		  Var longestSLOC As Integer = 4 // "SLOC" length.
-		  For Each item As XKItem In Project.Items
+		  For Each item As XojoKit.XKItem In Project.Items
 		    If item.Type = XojoKit.ItemTypes.Folder Then Continue
 		    
 		    longestFQN = Max(longestFQN, item.fqn.Length)
@@ -250,7 +250,7 @@ Inherits ConsoleApplication
 		  // ===================
 		  // ITEM DETAILS
 		  // ===================
-		  For Each item As XKItem In Project.Items
+		  For Each item As XojoKit.XKItem In Project.Items
 		    If item.Type = XojoKit.ItemTypes.Folder Then Continue
 		    
 		    Var type As String = item.Type.ToString.JustifyLeft(longestType)
@@ -368,7 +368,7 @@ Inherits ConsoleApplication
 	#tag EndProperty
 
 	#tag Property, Flags = &h0, Description = 5468652070617273656420586F6A6F2070726F6A6563742E
-		Project As XKProject
+		Project As XojoKit.XKProject
 	#tag EndProperty
 
 	#tag Property, Flags = &h0, Description = 54686520586F6A6F2070726F6A6563742066696C6520746F20776F726B20776974682E

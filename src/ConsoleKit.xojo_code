@@ -312,6 +312,18 @@ Protected Module ConsoleKit
 	#tag EndMethod
 
 
+	#tag ComputedProperty, Flags = &h1, Description = 5468652076657273696F6E20696E2074686520666F726D617420224D616A6F722E4D696E6F722E506174636822
+		#tag Getter
+			Get
+			  Return VERSION_MAJOR.ToString + "." + _
+			  VERSION_MINOR.ToString + "." + VERSION_PATCH.ToString
+			  
+			End Get
+		#tag EndGetter
+		Protected Version As String
+	#tag EndComputedProperty
+
+
 	#tag Constant, Name = BACKCOLOR_DEFAULT, Type = String, Dynamic = False, Default = \"49", Scope = Private
 	#tag EndConstant
 
@@ -337,6 +349,15 @@ Protected Module ConsoleKit
 	#tag EndConstant
 
 	#tag Constant, Name = UNDERLINE_ON, Type = String, Dynamic = False, Default = \"4", Scope = Private
+	#tag EndConstant
+
+	#tag Constant, Name = VERSION_MAJOR, Type = Double, Dynamic = False, Default = \"1", Scope = Private
+	#tag EndConstant
+
+	#tag Constant, Name = VERSION_MINOR, Type = Double, Dynamic = False, Default = \"0", Scope = Private
+	#tag EndConstant
+
+	#tag Constant, Name = VERSION_PATCH, Type = Double, Dynamic = False, Default = \"0", Scope = Private
 	#tag EndConstant
 
 
