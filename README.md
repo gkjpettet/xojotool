@@ -2,7 +2,7 @@
 A multipurpose command line tool for manipulating Xojo projects.
 
 ## Installation
-o install, you have a few choices:
+To install, you have a few choices:
 
 ### 1. Use a package manager (easiest)
 Simple installation with Homebrew is offered for macOS.
