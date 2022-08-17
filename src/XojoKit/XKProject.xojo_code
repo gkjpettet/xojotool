@@ -962,6 +962,9 @@ Protected Class XKProject
 		  Case XojoKit.ItemTypes.Class_
 		    mClassCount = mClassCount + 1
 		    
+		  Case XojoKit.ItemTypes.Container
+		    mContainerCount = mContainerCount + 1
+		    
 		  Case XojoKit.ItemTypes.FileType_
 		    mFileTypeCount = mFileTypeCount + 1
 		    
@@ -1063,6 +1066,18 @@ Protected Class XKProject
 		CommentCount As Integer
 	#tag EndComputedProperty
 
+	#tag ComputedProperty, Flags = &h0, Description = 52657475726E732074686520746F74616C206E756D626572206F6620636F6E7461696E65727320696E20746869732070726F6A6563742E20436F6D7075746564206F6E6365206166746572207468652070726F6A6563742069732070617273656420736F20696E657870656E7369766520746F2063616C6C2E
+		#tag Getter
+			Get
+			  Return mContainerCount
+			  
+			  
+			  
+			End Get
+		#tag EndGetter
+		ContainerCount As Integer
+	#tag EndComputedProperty
+
 	#tag ComputedProperty, Flags = &h0, Description = 54727565206966207468652070726F6A65637420636F6E7461696E7320616E792065787465726E616C206974656D732E20436F6D7075746564206F6E6365206166746572207468652070726F6A6563742069732070617273656420736F20696E657870656E7369766520746F2063616C6C2E
 		#tag Getter
 			Get
@@ -1132,6 +1147,10 @@ Protected Class XKProject
 
 	#tag Property, Flags = &h21, Description = 4261636B732060436F6D6D656E74436F756E74602E2054686520746F74616C206E756D626572206F6620636F6D6D656E747320696E20746869732070726F6A6563742E20436F6D7075746564206166746572207468652070726F6A656374206973207061727365642E
 		Private mCommentCount As Integer = 0
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mContainerCount As Integer = 0
 	#tag EndProperty
 
 	#tag Property, Flags = &h21, Description = 54727565206966207468652070726F6A65637420636F6E7461696E7320616E792065787465726E616C206974656D732E20436F6D7075746564206F6E6365206166746572207468652070726F6A6563742069732070617273656420736F20696E657870656E7369766520746F2063616C6C2E
@@ -1556,6 +1575,14 @@ Protected Class XKProject
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="TotalLineCount"
+			Visible=false
+			Group="Behavior"
+			InitialValue=""
+			Type="Integer"
+			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="ContainerCount"
 			Visible=false
 			Group="Behavior"
 			InitialValue=""

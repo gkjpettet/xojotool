@@ -286,7 +286,7 @@ Inherits ConsoleApplication
 		  // ===================
 		  Print("NB: Currently " + _
 		  ConsoleKit.CLIFormatted("xojotool", True, False, False, ConsoleKit.Colors.Green) + _
-		  " only parses the contents of classes, interfaces, modules and windows.")
+		  " only parses the contents of classes, interfaces, modules, containers and windows.")
 		  Print("Code contained in Workers, etc is not counted.")
 		  Print("")
 		  
@@ -311,22 +311,23 @@ Inherits ConsoleApplication
 		  // HEADER
 		  // ===================
 		  Var header As String = _
-		  ConsoleKit.CLIFormatted("Classes   Interfaces   Modules   Windows", _
+		  ConsoleKit.CLIFormatted("Classes   Interfaces   Modules   Windows   Containers", _
 		  True, False, False, ConsoleKit.Colors.Blue)
 		  
-		  Print("----------------------------------------")
+		  Print("-----------------------------------------------------")
 		  Print(header)
-		  Print("----------------------------------------")
+		  Print("-----------------------------------------------------")
 		  
 		  // ===================
 		  // ITEM COUNTS
 		  // ===================
-		  Var modString, classString, interfaceString, windowString As String
+		  Var modString, classString, interfaceString, windowString, containerString As String
 		  classString = Project.ClassCount.ToString.JustifyLeft(10)
 		  interfaceString = Project.InterfaceCount.ToString.JustifyLeft(13)
 		  modString = Project.ModuleCount.ToString.JustifyLeft(10)
-		  windowString = Project.WindowCount.ToString
-		  Print(classString + interfaceString + modString + windowString)
+		  windowString = Project.WindowCount.ToString.JustifyLeft(10)
+		  containerString = Project.ContainerCount.ToString
+		  Print(classString + interfaceString + modString + windowString + containerString)
 		  Print("")
 		  
 		  // ===================
@@ -346,7 +347,7 @@ Inherits ConsoleApplication
 		  // ===================
 		  Print("NB: Currently " + _
 		  ConsoleKit.CLIFormatted("xojotool", True, False, False, ConsoleKit.Colors.Green) + _
-		  " only parses the contents of classes, interfaces, modules and windows.")
+		  " only parses the contents of classes, interfaces, modules, containers and windows.")
 		  Print("Code contained in Workers, etc is not counted.")
 		  Print("")
 		  
