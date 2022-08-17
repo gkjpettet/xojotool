@@ -59,6 +59,17 @@ Inherits ConsoleApplication
 		End Function
 	#tag EndEvent
 
+	#tag Event
+		Function UnhandledException(error As RuntimeException) As Boolean
+		  Print(ConsoleKit.CLIFormatted("Unhandled exception", True, False, False, ConsoleKit.Colors.Red))
+		  
+		  Print(ConsoleKit.CLIBold("Error message:"))
+		  Print(error.Message)
+		  
+		  Quit(-1)
+		End Function
+	#tag EndEvent
+
 
 	#tag Method, Flags = &h0
 		Sub AddOptions()
