@@ -136,7 +136,7 @@ Implements XKItemParser
 		  Var line As String
 		  For i As Integer = 0 To lines.LastIndex
 		    
-		    // Skip lines that don't start with `#tag`.
+		    // Skip empty lines and lines that don't start with `#tag`.
 		    line = lines(i).Trim
 		    If line.IsEmpty Then Continue
 		    If Not line.BeginsWith("#tag") Then Continue
@@ -194,6 +194,21 @@ Implements XKItemParser
 		      item.Structures.Add(ParseStructure(tag, lines, i))
 		    End Select
 		  Next i
+		  
+		  // HACK: Xojo stores Windows and Containers in `.xojo_window` files. The only way I can see to tell
+		  // them apart is that Windows have an `ImplicitInstance` property and Containers do not.
+		  // If we can find this in the xojo_window file then we will assume it is a Window.
+		  // Of course, if someone adds this property to their Container then the parser will wrongly assume this is 
+		  // a Window.
+		  If item.Type = XojoKit.ItemTypes.Window_ Then
+		    item.Type = XojoKit.ItemTypes.Container // Default to a container.
+		    For Each l As String In lines
+		      If l.Trim.BeginsWith("ImplicitInstance") Then
+		        item.Type = XojoKit.ItemTypes.Window_
+		        Exit
+		      End If
+		    Next l
+		  End If
 		  
 		End Sub
 	#tag EndMethod

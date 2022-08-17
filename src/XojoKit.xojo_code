@@ -133,6 +133,9 @@ Protected Module XojoKit
 		  Case XojoKit.ItemTypes.Class_
 		    Return "class"
 		    
+		  Case XojoKit.ItemTypes.Container
+		    Return "container"
+		    
 		  Case XojoKit.ItemTypes.FileType_
 		    Return "fileType"
 		    
@@ -229,7 +232,7 @@ Protected Module XojoKit
 	#tag Constant, Name = VERSION_MINOR, Type = Double, Dynamic = False, Default = \"0", Scope = Private
 	#tag EndConstant
 
-	#tag Constant, Name = VERSION_PATCH, Type = Double, Dynamic = False, Default = \"2", Scope = Private
+	#tag Constant, Name = VERSION_PATCH, Type = Double, Dynamic = False, Default = \"3", Scope = Private
 	#tag EndConstant
 
 
@@ -251,7 +254,8 @@ Protected Module XojoKit
 		  ToolBar_
 		  FileType_
 		  ImageSet_
-		Unknown
+		  Unknown
+		Container
 	#tag EndEnum
 
 	#tag Enum, Name = MemberTypes, Type = Integer, Flags = &h1
