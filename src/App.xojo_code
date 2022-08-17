@@ -19,7 +19,13 @@ Inherits ConsoleApplication
 		  
 		  AddOptions
 		  
-		  Parser.Parse(args)
+		  #Pragma BreakOnExceptions False
+		  Try
+		    Parser.Parse(args)
+		  Catch e As ConsoleKit.OptionException
+		    Error(e.Message, True)
+		  End Try
+		  #Pragma BreakOnExceptions Default
 		  
 		  If parser.HelpRequested Then
 		    Print("")
@@ -151,7 +157,7 @@ Inherits ConsoleApplication
 	#tag EndMethod
 
 	#tag Method, Flags = &h0, Description = 5072696E747320616E206572726F72206D65737361676520616E64207175697473207769746820606572726F72436F6465602E
-		Sub Error(message As String, errorCode As Integer = -1)
+		Sub Error(message As String, showHelp As Boolean = True, errorCode As Integer = -1)
 		  /// Prints an error message and quits with `errorCode`.
 		  
 		  Var s As String = ConsoleKit.CLIFormatted("Error", True, False, False, ConsoleKit.Colors.Red)
@@ -159,6 +165,11 @@ Inherits ConsoleApplication
 		  s = s + message
 		  
 		  Print(s)
+		  
+		  If showHelp Then
+		    Print("")
+		    Parser.ShowHelp
+		  End If
 		  
 		  Quit(errorCode)
 		  
