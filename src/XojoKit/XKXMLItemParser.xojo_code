@@ -976,7 +976,7 @@ Implements XKItemParser
 	#tag Constant, Name = REGEX_EVENT_SUB_SIG, Type = String, Dynamic = False, Default = \"(\?<type>Sub)\\s(\?<name>[a-z0-9_]+)\\((\?P<params>.+)\?\\)", Scope = Private, Description = 546865207265676578207061747465726E20666F72206D61746368696E6720616E206576656E742068616E646C6572277320737562207369676E61747572652077697468696E20616E20224974656D536F75726365203E20536F757263654C696E652220584D4C206E6F64652E
 	#tag EndConstant
 
-	#tag Constant, Name = REGEX_PARAM, Type = String, Dynamic = False, Default = \"(\?P<isParamArray>ParamArray)\?(\?P<isAssigns>Assigns)\?\\s\?(\?P<name>[a-z0-9_\\.]+(\?:\\(.*\\))\?)\\sAs\\s(\?P<type>[a-z0-9_\\.]+)(\?:\\s\x3D\\s)\?(\?P<default>[a-z0-9._\"\\-\\s]+)\?", Scope = Private, Description = 54686520726567657820746F206D6174636820612073696E676C6520706172616D657465722077697468696E2061207369676E61747572652E
+	#tag Constant, Name = REGEX_PARAM, Type = String, Dynamic = False, Default = \"(\?P<isParamArray>ParamArray)\?(\?P<isAssigns>Assigns)\?\\s\?(\?P<name>[a-z0-9_\\.]+(\?:\\(.*\\))\?)\\s+As\\s+(\?P<type>[a-z0-9_\\.]+)(\?:\\s\x3D\\s)\?(\?P<default>[a-z0-9._\"\\-\\s]+)\?", Scope = Private, Description = 54686520726567657820746F206D6174636820612073696E676C6520706172616D657465722077697468696E2061207369676E61747572652E
 	#tag EndConstant
 
 

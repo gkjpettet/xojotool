@@ -238,8 +238,6 @@ Implements XKItemParser
 		  Var hasAttributes As Boolean = False
 		  If scopeLine.BeginsWith("Attributes") Then
 		    hasAttributes = True
-		  ElseIf scopeLine.BeginsWith("Protected") = False And scopeLine.BeginsWith("Private") = False Then
-		    Raise New XKException("Expected a scope / attributes line after the Class tag.")
 		  End If
 		  
 		  // ===============
@@ -776,15 +774,20 @@ Implements XKItemParser
 		  
 		  // Advance to the signature line.
 		  i = i + 1
-		  Var sigLine As String = lines(i)
+		  Var sigLine As String = lines(i).Trim
+		  
+		  // Is this a function (no return value) or sub (has a return value)?
+		  Var sigPattern As String
+		  If SignatureHasReturnValue(sigLine) Then
+		    sigPattern = REGEX_EVENT_DEF_FUNCTION_SIG
+		  Else
+		    sigPattern = REGEX_EVENT_DEF_SUB_SIG
+		  End If
 		  
 		  // Search the signature line.
-		  Var rx As New XKRegex(REGEX_EVENT_DEF_FUNCTION_SIG)
+		  Var rx As New XKRegex(sigPattern)
 		  If Not rx.Match(sigLine) Then
-		    rx = New XKRegex(REGEX_EVENT_DEF_SUB_SIG)
-		    If Not rx.Match(sigLine) Then
-		      Raise New XKException("Expected an event definition signature line.")
-		    End If
+		    Raise New XKException("Expected an event definition signature line.")
 		  End If
 		  
 		  // Advance past the signature line index.
@@ -892,7 +895,7 @@ Implements XKItemParser
 	#tag EndMethod
 
 	#tag Method, Flags = &h21, Description = 50617273657320616E2022496E7465726661636522207461672E204D757461746573206069602E204D617920726169736520612060586F646F63457863657074696F6E602E
-		Private Sub ParseInterfaceTag(ByRef item As XKItem, lines() As String, ByRef i As Integer)
+		Private Sub ParseInterfaceTag(ByRef item As XojoKit.XKItem, lines() As String, ByRef i As Integer)
 		  /// Parses an "Interface" tag. Mutates `i`. May raise a `XKException`.
 		  ///
 		  /// Assumes `lines` is the contents of `file`.
@@ -929,8 +932,6 @@ Implements XKItemParser
 		  Var hasAttributes As Boolean = False
 		  If scopeLine.BeginsWith("Attributes") Then
 		    hasAttributes = True
-		  ElseIf scopeLine.BeginsWith("Protected") = False And scopeLine.BeginsWith("Private") = False Then
-		    Raise New XKException("Expected a scope / attributes line after the Interface tag.")
 		  End If
 		  
 		  // Get the optional "implements" line.
@@ -968,7 +969,7 @@ Implements XKItemParser
 		  ElseIf scopeLine.BeginsWith("Protected") Then
 		    item.Scope = XojoKit.Scopes.Protected_
 		  Else
-		    Raise New XKException("Unknown interface scope in file `" + item.File.NativePath + "`.")
+		    item.Scope = XojoKit.Scopes.Public_
 		  End If
 		  
 		  // Optional interfaces?
@@ -1004,14 +1005,30 @@ Implements XKItemParser
 		  i = i + 1
 		  Var sigLine As String = lines(i)
 		  
-		  // Search the signature line.
-		  Var rx As New XKRegex(REGEX_FUNCTION_SIG)
-		  If Not rx.Match(sigLine) Then
-		    rx = New XKRegex(REGEX_SUB_SIG)
-		    If Not rx.Match(sigLine) Then
-		      Raise New XKException("Expected a method signature line.")
-		    End If
+		  // Is this a function (no return value) or sub (has a return value)?
+		  Var sigPattern As String
+		  If SignatureHasReturnValue(sigLine) Then
+		    sigPattern = REGEX_FUNCTION_SIG
+		  Else
+		    sigPattern = REGEX_SUB_SIG
 		  End If
+		  
+		  // Search the signature line.
+		  Var rx As New XKRegex(sigPattern)
+		  If Not rx.Match(sigLine) Then
+		    Raise New XKException("Expected a method signature line.")
+		  End If
+		  
+		  
+		  
+		  ' // Search the signature line.
+		  ' Var rx As New XKRegex(REGEX_FUNCTION_SIG)
+		  ' If Not rx.Match(sigLine) Then
+		  ' rx = New XKRegex(REGEX_SUB_SIG)
+		  ' If Not rx.Match(sigLine) Then
+		  ' Raise New XKException("Expected a method signature line.")
+		  ' End If
+		  ' End If
 		  
 		  // Advance past the signature line index.
 		  i = i + 1
@@ -1077,7 +1094,7 @@ Implements XKItemParser
 	#tag EndMethod
 
 	#tag Method, Flags = &h21, Description = 506172736573206120224D6F64756C6522207461672E204D757461746573206069602E204D617920726169736520612060586F646F63457863657074696F6E602E
-		Private Sub ParseModuleTag(ByRef item As XKItem, lines() As String, ByRef i As Integer)
+		Private Sub ParseModuleTag(ByRef item As XojoKit.XKItem, lines() As String, ByRef i As Integer)
 		  /// Parses a "Module" tag. Mutates `i`. May raise a `XKException`.
 		  ///
 		  /// Assumes `lines` is the contents of `file`.
@@ -1113,8 +1130,6 @@ Implements XKItemParser
 		  Var hasAttributes As Boolean = False
 		  If scopeLine.BeginsWith("Attributes") Then
 		    hasAttributes = True
-		  ElseIf scopeLine.BeginsWith("Protected") = False And scopeLine.BeginsWith("Private") = False Then
-		    Raise New XKException("Expected a scope / attributes line after the Module tag.")
 		  End If
 		  
 		  // Optional attributes?
@@ -1141,7 +1156,7 @@ Implements XKItemParser
 		  ElseIf scopeLine.BeginsWith("Protected") Then
 		    item.Scope = XojoKit.Scopes.Protected_
 		  Else
-		    Raise New XKException("Unknown module scope in file `" + item.File.NativePath + "`.")
+		    item.Scope = XojoKit.Scopes.Global_
 		  End If
 		  
 		End Sub
@@ -1412,6 +1427,17 @@ Implements XKItemParser
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h21, Description = 52657475726E73205472756520696620607369676E6174757265602068617320612072657475726E2076616C75652E
+		Private Function SignatureHasReturnValue(signature As String) As Boolean
+		  /// Returns True if `signature` has a return value.
+		  
+		  Var rx As New XojoKit.XKRegex(REGEX_SIGNATURE_HAS_RETURN_VALUE)
+		  
+		  Return rx.Match(signature)
+		  
+		End Function
+	#tag EndMethod
+
 
 	#tag Note, Name = About
 		Parses the contents of a Xojo item serialised to a `.xojo_code` file.
@@ -1424,25 +1450,28 @@ Implements XKItemParser
 	#tag EndProperty
 
 
-	#tag Constant, Name = REGEX_EVENT_DEF_FUNCTION_SIG, Type = String, Dynamic = False, Default = \"(\?P<attributes>Attributes\\(.+\\))\?\\s\?(\?:Event)\\s(\?<name>[a-z0-9_]+)\\((\?P<params>.+)\?\\)(\?:\\sAs\\s)(\?P<return>.+)", Scope = Private, Description = 546865207265676578207061747465726E20666F72206D61746368696E6720616E206576656E7420646566696E6974696F6E207369676E617475726520746861742072657475726E7320612076616C75652077697468696E206120602E786F6A6F5F636F6465602066696C652E
+	#tag Constant, Name = REGEX_EVENT_DEF_FUNCTION_SIG, Type = String, Dynamic = False, Default = \"(\?P<attributes>Attributes\\(.+\\))\?\\s\?(\?:Event)\\s(\?<name>[a-z0-9_]+)\\((\?P<params>.+)\?\\)(\?:\\s+As\\s+)(\?P<return>.+)", Scope = Private, Description = 546865207265676578207061747465726E20666F72206D61746368696E6720616E206576656E7420646566696E6974696F6E207369676E617475726520746861742072657475726E7320612076616C75652077697468696E206120602E786F6A6F5F636F6465602066696C652E
 	#tag EndConstant
 
 	#tag Constant, Name = REGEX_EVENT_DEF_SUB_SIG, Type = String, Dynamic = False, Default = \"(\?P<attributes>Attributes\\(.+\\))\?\\s\?(\?:Event)\\s(\?<name>[a-z0-9_]+)\\((\?P<params>.+)\?\\)", Scope = Private, Description = 546865207265676578207061747465726E20666F72206D61746368696E6720616E206576656E7420646566696E6974696F6E207369676E6174757265207468617420646F65736E27742072657475726E20612076616C75652077697468696E206120602E786F6A6F5F636F6465602066696C652E
 	#tag EndConstant
 
-	#tag Constant, Name = REGEX_EVENT_FUNCTION_SIG, Type = String, Dynamic = False, Default = \"(\?<type>Function)\\s(\?<name>[a-z0-9_]+)\\((\?P<params>.+)\?\\)(\?:\\sAs\\s)(\?P<return>.+)", Scope = Private, Description = 546865207265676578207061747465726E20666F72206D61746368696E6720616E206576656E742068616E646C657227732066756E6374696F6E207369676E61747572652077697468696E206120602E786F6A6F5F636F6465602066696C652E
+	#tag Constant, Name = REGEX_EVENT_FUNCTION_SIG, Type = String, Dynamic = False, Default = \"(\?<type>Function)\\s(\?<name>[a-z0-9_]+)\\((\?P<params>.+)\?\\)(\?:\\s+As\\s+)(\?P<return>.+)", Scope = Private, Description = 546865207265676578207061747465726E20666F72206D61746368696E6720616E206576656E742068616E646C657227732066756E6374696F6E207369676E61747572652077697468696E206120602E786F6A6F5F636F6465602066696C652E
 	#tag EndConstant
 
 	#tag Constant, Name = REGEX_EVENT_SUB_SIG, Type = String, Dynamic = False, Default = \"(\?<type>Sub)\\s(\?<name>[a-z0-9_]+)\\((\?P<params>.+)\?\\)", Scope = Private, Description = 546865207265676578207061747465726E20666F72206D61746368696E6720616E206576656E742068616E646C6572207375622077697468696E206120602E786F6A6F5F636F6465602066696C652E
 	#tag EndConstant
 
-	#tag Constant, Name = REGEX_FUNCTION_SIG, Type = String, Dynamic = False, Default = \"(\?P<attributes>Attributes\\(.+\\))\?\\s\?(\?P<scope>Public|Global|Protected|Private)\?\\s\?(\?<shared>Shared)\?\\s\?(\?<type>Function)\\s(\?<name>[a-z0-9_]+)\\((\?P<params>.+)\?\\)(\?:\\sAs\\s)(\?P<return>.+)", Scope = Private, Description = 546865207265676578207061747465726E20666F72206D61746368696E6720612066756E6374696F6E207369676E61747572652077697468696E206120602E786F6A6F5F636F6465602066696C652E
+	#tag Constant, Name = REGEX_FUNCTION_SIG, Type = String, Dynamic = False, Default = \"(\?P<attributes>Attributes\\(.+\\))\?\\s\?(\?P<scope>Public|Global|Protected|Private)\?\\s\?(\?<shared>Shared)\?\\s\?(\?<type>Function)\\s(\?<name>[a-z0-9_]+)\\((\?P<params>.+)\?\\)(\?:\\s+As\\s+)(\?P<return>.+)", Scope = Private, Description = 546865207265676578207061747465726E20666F72206D61746368696E6720612066756E6374696F6E207369676E61747572652077697468696E206120602E786F6A6F5F636F6465602066696C652E
 	#tag EndConstant
 
-	#tag Constant, Name = REGEX_PARAM, Type = String, Dynamic = False, Default = \"(\?P<isParamArray>ParamArray)\?(\?P<isAssigns>Assigns)\?\\s\?(\?P<name>[a-z0-9_\\.]+(\?:\\(.*\\))\?)\\sAs\\s(\?P<type>[a-z0-9_\\.]+)(\?:\\s\x3D\\s)\?(\?P<default>[a-z0-9._\"\\-\\s]+)\?", Scope = Private, Description = 54686520726567657820746F206D6174636820612073696E676C6520706172616D657465722077697468696E2061207369676E61747572652E
+	#tag Constant, Name = REGEX_PARAM, Type = String, Dynamic = False, Default = \"(\?P<isParamArray>ParamArray)\?(\?P<isAssigns>Assigns)\?\\s\?(\?P<name>[a-z0-9_\\.]+(\?:\\(.*\\))\?)\\s+As\\s+(\?P<type>[a-z0-9_\\.]+)(\?:\\s\x3D\\s)\?(\?P<default>[a-z0-9._\"\\-\\s]+)\?", Scope = Private, Description = 54686520726567657820746F206D6174636820612073696E676C6520706172616D657465722077697468696E2061207369676E61747572652E
 	#tag EndConstant
 
 	#tag Constant, Name = REGEX_PROP_SIG, Type = String, Dynamic = False, Default = \"(\?P<attributes>Attributes\\(.+\\))\?\\s\?(\?P<scope>Public|Global|Protected|Private)\?\\s\?(\?<shared>Shared)\?\\s\?(\?<name>[a-z0-9_]+(\?:\\(.*\\))\?)(\?:\\sAs\\s)(\?P<type>[a-z0-9_\\.]+\\(\?\x2C\?\\)\?)\?\\s\?\x3D\?\\s\?(\?P<default>[a-z0-9_\\.\"\\-\\s\\&\\+]+)\?$", Scope = Private, Description = 54686520726567657820666F7220612070726F7065727479207369676E6174757265206C696E652E
+	#tag EndConstant
+
+	#tag Constant, Name = REGEX_SIGNATURE_HAS_RETURN_VALUE, Type = String, Dynamic = False, Default = \".+\\) As [a-zA-Z0-9._]+(\?:\\(\\))\?$", Scope = Private
 	#tag EndConstant
 
 	#tag Constant, Name = REGEX_SUB_SIG, Type = String, Dynamic = False, Default = \"(\?P<attributes>Attributes\\(.+\\))\?\\s\?(\?P<scope>Public|Global|Protected|Private)\?\\s\?(\?<shared>Shared)\?\\s\?(\?<type>Sub)\\s(\?<name>[a-z0-9_]+)\\((\?P<params>.+)\?\\)", Scope = Private, Description = 546865207265676578207061747465726E20666F72206D61746368696E67206120737562207369676E61747572652077697468696E206120602E786F6A6F5F636F6465602066696C652E

@@ -374,41 +374,6 @@ Protected Class XKItem
 			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
-			Name="FileFormat"
-			Visible=false
-			Group="Behavior"
-			InitialValue="Xodoc.FileFormats.Project"
-			Type="XojoKit.FileFormats"
-			EditorType="Enum"
-			#tag EnumValues
-				"0 - Project"
-				"1 - Unknown"
-				"2 - XML"
-				"3 - Window"
-			#tag EndEnumValues
-		#tag EndViewProperty
-		#tag ViewProperty
-			Name="Type"
-			Visible=false
-			Group="Behavior"
-			InitialValue="Xodoc.ObjectTypes.Class_"
-			Type="XojoKit.ItemTypes"
-			EditorType="Enum"
-			#tag EnumValues
-				"0 - Class_"
-				"1 - Interface_"
-				"2 - Module_"
-				"3 - Folder"
-				"4 - Root"
-				"5 - Window_"
-				"6 - MenuBar_"
-				"7 - ToolBar_"
-				"8 - FileType_"
-				"9 - ImageSet_"
-				"10 - Unknown"
-			#tag EndEnumValues
-		#tag EndViewProperty
-		#tag ViewProperty
 			Name="FQN"
 			Visible=false
 			Group="Behavior"
@@ -423,20 +388,6 @@ Protected Class XKItem
 			InitialValue=""
 			Type="String"
 			EditorType="MultiLineEditor"
-		#tag EndViewProperty
-		#tag ViewProperty
-			Name="Scope"
-			Visible=false
-			Group="Behavior"
-			InitialValue="Xodoc.Scopes.Public_"
-			Type="XojoKit.Scopes"
-			EditorType="Enum"
-			#tag EnumValues
-				"0 - Public_"
-				"1 - Private_"
-				"2 - Protected_"
-				"3 - Global_"
-			#tag EndEnumValues
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Superclass"

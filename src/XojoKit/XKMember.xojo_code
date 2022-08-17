@@ -107,41 +107,6 @@ Protected Class XKMember
 			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
-			Name="MemberType"
-			Visible=false
-			Group="Behavior"
-			InitialValue="XojoKit.MemberTypes.Unknown"
-			Type="XojoKit.MemberTypes"
-			EditorType="Enum"
-			#tag EnumValues
-				"0 - Constant_"
-				"1 - Property_"
-				"2 - Method_"
-				"3 - Enum_"
-				"4 - Event_"
-				"5 - EventDefinition_"
-				"6 - Delegate_"
-				"7 - ComputedProperty_"
-				"8 - Structure_"
-				"9 - Note_"
-				"10 - Unknown"
-			#tag EndEnumValues
-		#tag EndViewProperty
-		#tag ViewProperty
-			Name="Scope"
-			Visible=false
-			Group="Behavior"
-			InitialValue="XojoKit.Scopes.Public_"
-			Type="XojoKit.Scopes"
-			EditorType="Enum"
-			#tag EnumValues
-				"0 - Public_"
-				"1 - Private_"
-				"2 - Protected_"
-				"3 - Global_"
-			#tag EndEnumValues
-		#tag EndViewProperty
-		#tag ViewProperty
 			Name="Description"
 			Visible=false
 			Group="Behavior"

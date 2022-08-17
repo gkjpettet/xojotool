@@ -228,20 +228,6 @@ Protected Class XKProjectItemTag
 			Type="String"
 			EditorType="MultiLineEditor"
 		#tag EndViewProperty
-		#tag ViewProperty
-			Name="Scope"
-			Visible=false
-			Group="Behavior"
-			InitialValue="XojoKit.Scopes.Public_"
-			Type="XojoKit.Scopes"
-			EditorType="Enum"
-			#tag EnumValues
-				"0 - Public_"
-				"1 - Private_"
-				"2 - Protected_"
-				"3 - Global_"
-			#tag EndEnumValues
-		#tag EndViewProperty
 	#tag EndViewBehavior
 End Class
 #tag EndClass
