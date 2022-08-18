@@ -132,9 +132,9 @@ Inherits ConsoleApplication
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub DumpToCSV()
+		Sub DumpToCSV(Optional bIncludeHeaders As Boolean = True)
 		  Var f As FolderItem = SpecialFolder.Desktop.Child(System.Ticks.ToString + ".csv")
-		  
+		  Var bFirstLine As Boolean=True
 		  Var tout As TextOutputStream = TextOutputStream.Create(f)
 		  For Each item As XojoKit.XKItem In Project.Items
 		    
@@ -144,12 +144,24 @@ Inherits ConsoleApplication
 		    
 		    Var col() As String
 		    
+		    If bFirstLine and bIncludeHeaders Then
+		      col.Add("Item")
+		      col.Add("Type")
+		      col.Add("Members")
+		      col.Add("SLOC")
+		      col.Add("CLOC")
+		      tout.WriteLine(String.FromArray(col, ","))
+		      col.ResizeTo(-1)
+		    End If
+		    
 		    col.Add(item.FQN)
+		    col.Add(item.Type.ToString)
 		    col.Add(item.MemberCount.ToString)
 		    col.Add(item.CodeLineCount.ToString)
 		    col.Add(item.CommentCount.ToString)
 		    
 		    tout.WriteLine(String.FromArray(col, ","))
+		    bFirstLine = False
 		  Next item
 		  
 		  tout.Close
@@ -241,12 +253,17 @@ Inherits ConsoleApplication
 		  Var longestType As Integer = 9
 		  Var longestMembers As Integer = 7 //" Members" length.
 		  Var longestSLOC As Integer = 4 // "SLOC" length.
+		  Var LongestTLOC As Integer = 4 // "TLOC" length
+		  Var LongestCLOC As Integer = 4 // "CLOC" length
 		  For Each item As XojoKit.XKItem In Project.Items
 		    If item.Type = XojoKit.ItemTypes.Folder Then Continue
 		    
 		    longestFQN = Max(longestFQN, item.fqn.Length)
 		    longestMembers = Max(longestMembers, item.MemberCount.ToString.Length)
 		    longestSLOC = Max(longestSLOC, item.CodeLineCount.ToString.Length)
+		    Var itLocCount As Integer =  item.CodeLineCount + item.CommentCount
+		    longestTLOC = Max(LongestTLOC, itLocCount.ToString.Length)
+		    LongestCLOC = Max(LongestCLOC, item.CommentCount.ToString.Length)
 		  Next item
 		  
 		  // Add in title spacing.
@@ -254,6 +271,8 @@ Inherits ConsoleApplication
 		  longestType = longestType + 3
 		  longestMembers = longestMembers + 3
 		  longestSLOC = longestSLOC + 3
+		  LongestTLOC = LongestTLOC + 3
+		  LongestCLOC = LongestCLOC + 3
 		  
 		  Var itemTitle As String = "Item"
 		  itemTitle = itemTitle.JustifyLeft(longestFQN)
@@ -264,10 +283,16 @@ Inherits ConsoleApplication
 		  Var membersTitle As String = "Members"
 		  membersTitle = membersTitle.JustifyLeft(longestMembers)
 		  
+		  Var tlocTitle As String = "TLOC"
+		  tlocTitle = tlocTitle.JustifyLeft(longestTLOC)
+		  
 		  Var slocTitle As String = "SLOC"
 		  slocTitle = slocTitle.JustifyLeft(longestSLOC)
 		  
-		  Var rawHeader As String = itemTitle + typeTitle + membersTitle + slocTitle
+		  Var clocTitle As String = "CLOC"
+		  clocTitle = clocTitle.JustifyLeft(longestCLOC)
+		  
+		  Var rawHeader As String = itemTitle + typeTitle + membersTitle + tlocTitle + slocTitle + clocTitle
 		  Var header As String = ConsoleKit.CLIFormatted(rawHeader, _
 		  True, False, False, ConsoleKit.Colors.Blue)
 		  
@@ -285,9 +310,11 @@ Inherits ConsoleApplication
 		    Var type As String = item.Type.ToString.JustifyLeft(longestType)
 		    Var fqn As String = item.FQN.JustifyLeft(longestFQN)
 		    Var memberCount As String = item.MemberCount.ToString.JustifyLeft(longestMembers)
+		    Var itLocCount As Integer =  item.CodeLineCount + item.CommentCount
+		    Var tlocCount As String = itLocCount.ToString.JustifyLeft(LongestTLOC)
 		    Var slocCount As String = item.CodeLineCount.ToString.JustifyLeft(longestSLOC)
-		    
-		    Print(fqn + type + memberCount + slocCount)
+		    Var clocCount As String = item.CommentCount.ToString.JustifyLeft(longestCLOC)
+		    Print(fqn + type + memberCount + tlocCount + slocCount + clocCount)
 		  Next item
 		  
 		  Print("")
