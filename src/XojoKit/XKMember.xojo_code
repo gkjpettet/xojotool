@@ -138,6 +138,22 @@ Protected Class XKMember
 			Type="Boolean"
 			EditorType=""
 		#tag EndViewProperty
+		#tag ViewProperty
+			Name="MemberType"
+			Visible=false
+			Group="Behavior"
+			InitialValue="XojoKit.MemberTypes.Unknown"
+			Type="XojoKit.MemberTypes"
+			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Scope"
+			Visible=false
+			Group="Behavior"
+			InitialValue="XojoKit.Scopes.Public_"
+			Type="XojoKit.Scopes"
+			EditorType=""
+		#tag EndViewProperty
 	#tag EndViewBehavior
 End Class
 #tag EndClass

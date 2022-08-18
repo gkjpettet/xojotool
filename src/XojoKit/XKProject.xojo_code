@@ -1589,6 +1589,20 @@ Protected Class XKProject
 			Type="Integer"
 			EditorType=""
 		#tag EndViewProperty
+		#tag ViewProperty
+			Name="FileFormat"
+			Visible=false
+			Group="Behavior"
+			InitialValue="XojoKit.FileFormats.Project"
+			Type="XojoKit.FileFormats"
+			EditorType="Enum"
+			#tag EnumValues
+				"0 - Project"
+				"1 - Unknown"
+				"2 - XML"
+				"3 - Window"
+			#tag EndEnumValues
+		#tag EndViewProperty
 	#tag EndViewBehavior
 End Class
 #tag EndClass

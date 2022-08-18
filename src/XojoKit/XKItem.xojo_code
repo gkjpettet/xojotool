@@ -445,6 +445,30 @@ Protected Class XKItem
 			Type="Integer"
 			EditorType=""
 		#tag EndViewProperty
+		#tag ViewProperty
+			Name="FileFormat"
+			Visible=false
+			Group="Behavior"
+			InitialValue="XojoKit.FileFormats.Project"
+			Type="XojoKit.FileFormats"
+			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Scope"
+			Visible=false
+			Group="Behavior"
+			InitialValue="XojoKit.Scopes.Public_"
+			Type="XojoKit.Scopes"
+			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Type"
+			Visible=false
+			Group="Behavior"
+			InitialValue="XojoKit.ItemTypes.Unknown"
+			Type="XojoKit.ItemTypes"
+			EditorType=""
+		#tag EndViewProperty
 	#tag EndViewBehavior
 End Class
 #tag EndClass
