@@ -12,7 +12,6 @@ Class=OptionParser;ConsoleKit/OptionParser.xojo_code;&h0000000025CD9122;&h000000
 Class=Option;ConsoleKit/Option.xojo_code;&h00000000739D11C7;&h0000000018FC0FFF;false
 Class=CKApplication;ConsoleKit/CKApplication.xojo_code;&h000000004B97A7FF;&h0000000018FC0FFF;false
 Class=Colors;ConsoleKit/Colors.xojo_code;&h000000005BBB1FFF;&h0000000018FC0FFF;false
-Module=RegisterPlugins;../../RegisterPlugins/RegisterPlugins.xojo_xml_code;&h00000000302747FF;&h0000000000000000;false
 Class=XKParameter;XojoKit/XKParameter.xojo_code;&h0000000017A0C7FF;&h000000001C9BAFFF;false
 Class=XKItem;XojoKit/XKItem.xojo_code;&h000000004B08AFFF;&h000000001C9BAFFF;false
 Class=XKException;XojoKit/XKException.xojo_code;&h00000000082F7FFF;&h000000001C9BAFFF;false

@@ -1,6 +1,19 @@
 #tag Class
 Protected Class XKXMLItemParser
 Implements XKItemParser
+	#tag Method, Flags = &h21
+		Private Function CleanParam(strParam As string) As string
+		  If strParam.IndexOf("  ")=-1 then
+		    Return strParam
+		  End If
+		  while strParam.Indexof("  ")<>-1
+		    strParam=strParam.replaceall("  ", " ")
+		  wend
+		  Return strParam
+		  
+		End Function
+	#tag EndMethod
+
 	#tag Method, Flags = &h21, Description = 436F6D707574657320616E642072657475726E732074686520706173736564206576656E74277320757365722D666163696E67207369676E617475726520286C657373206465636F726174696F6E73206C696B6520617474726962757465732C20657463292E
 		Private Function ComputeEventSignature(e As XKEvent) As String
 		  /// Computes and returns the passed event's user-facing signature (less decorations like attributes, etc).
@@ -746,23 +759,44 @@ Implements XKItemParser
 		  /// `i As Integer, s As String = "Hello"`
 		  
 		  Var result() As XKParameter
-		  
+		  var strParamPart As String
+		  var strParam As String
 		  If node = Nil Or node.FirstChild = Nil Then Return result
 		  
 		  Var params() As String = node.FirstChild.Value.Split(", ")
 		  Var paramRx As New XKRegex(REGEX_PARAM)
 		  For Each param As String In params
-		    If Not paramRx.Match(param) Then
-		      Raise New XKException("Invalid parameter within ""ItemParams"" node.")
+		    if param.IndexOf("As")=-1 Then
+		      // in case the parameter is something like
+		      // strArrTotalField(, ) As String
+		      // then param will not contain As, as it has been split on the ", )" part
+		      // param will then contain strArrTotalField( 
+		      // and the next param will contain ) As String
+		      // we remember the first part and add the ", " back to it
+		      strParamPart=strParampart + param + ", "
 		    Else
-		      Var p As New XKParameter
-		      p.DefaultValue = paramRx.NamedGroups.Lookup("default", "")
-		      p.IsParamArray = If(paramRx.NamedGroups.Lookup("isParamArray", "") = "", False, True)
-		      p.IsAssigns = If(paramRx.NamedGroups.Lookup("isAssigns", "") = "", False, True)
-		      p.Name = paramRx.NamedGroups.Lookup("name", "")
-		      p.IsArray = If(p.Name.IndexOf("(") = -1, False, True)
-		      p.Type = paramRx.NamedGroups.Lookup("type", "")
-		      result.Add(p)
+		      if strParamPart<>"" then
+		        //if we have a remembered part the we add the part with the As to it
+		        // then we empty the remembered part, since we have processed it
+		        param = strParamPart + param
+		        strParamPart = ""
+		      end if
+		      // clean up the param to remove double spaces
+		      // for instance strParam  As string
+		      // there is a double space between strParam and As
+		      strParam=CleanParam(param)
+		      If Not paramRx.Match(param) Then
+		        Raise New XKException("Invalid parameter within ""ItemParams"" node.")
+		      Else
+		        Var p As New XKParameter
+		        p.DefaultValue = paramRx.NamedGroups.Lookup("default", "")
+		        p.IsParamArray = If(paramRx.NamedGroups.Lookup("isParamArray", "") = "", False, True)
+		        p.IsAssigns = If(paramRx.NamedGroups.Lookup("isAssigns", "") = "", False, True)
+		        p.Name = paramRx.NamedGroups.Lookup("name", "")
+		        p.IsArray = If(p.Name.IndexOf("(") = -1, False, True)
+		        p.Type = paramRx.NamedGroups.Lookup("type", "")
+		        result.Add(p)
+		      End If
 		    End If
 		  Next param
 		  
