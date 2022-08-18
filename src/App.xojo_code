@@ -132,10 +132,11 @@ Inherits ConsoleApplication
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub DumpToCSV(Optional bIncludeHeaders As Boolean = True)
+		Sub DumpToCSV(Optional includeHeaders As Boolean = True)
 		  Var f As FolderItem = SpecialFolder.Desktop.Child(System.Ticks.ToString + ".csv")
-		  Var bFirstLine As Boolean=True
+		  Var firstLine As Boolean = True
 		  Var tout As TextOutputStream = TextOutputStream.Create(f)
+		  
 		  For Each item As XojoKit.XKItem In Project.Items
 		    
 		    If item.Type = XojoKit.ItemTypes.Folder Then
@@ -144,7 +145,7 @@ Inherits ConsoleApplication
 		    
 		    Var col() As String
 		    
-		    If bFirstLine and bIncludeHeaders Then
+		    If firstLine and includeHeaders Then
 		      col.Add("Item")
 		      col.Add("Type")
 		      col.Add("Members")
@@ -161,7 +162,7 @@ Inherits ConsoleApplication
 		    col.Add(item.CommentCount.ToString)
 		    
 		    tout.WriteLine(String.FromArray(col, ","))
-		    bFirstLine = False
+		    firstLine = False
 		  Next item
 		  
 		  tout.Close

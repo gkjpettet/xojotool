@@ -1595,7 +1595,13 @@ Protected Class XKProject
 			Group="Behavior"
 			InitialValue="XojoKit.FileFormats.Project"
 			Type="XojoKit.FileFormats"
-			EditorType=""
+			EditorType="Enum"
+			#tag EnumValues
+				"0 - Project"
+				"1 - Unknown"
+				"2 - XML"
+				"3 - Window"
+			#tag EndEnumValues
 		#tag EndViewProperty
 	#tag EndViewBehavior
 End Class

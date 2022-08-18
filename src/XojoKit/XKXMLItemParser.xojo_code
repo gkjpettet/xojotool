@@ -1,14 +1,18 @@
 #tag Class
 Protected Class XKXMLItemParser
 Implements XKItemParser
-	#tag Method, Flags = &h21
+	#tag Method, Flags = &h21, Description = 436C65616E73207570206120706172616D65746572206576616C756174656420696E20605061727365506172616D65746572734E6F6465602E
 		Private Function CleanParam(strParam As string) As string
-		  If strParam.IndexOf("  ")=-1 then
+		  /// Cleans up a parameter evaluated in `ParseParametersNode`.
+		  
+		  If strParam.IndexOf("  ") = -1 Then
 		    Return strParam
 		  End If
-		  while strParam.Indexof("  ")<>-1
-		    strParam=strParam.replaceall("  ", " ")
-		  wend
+		  
+		  While strParam.Indexof("  ") <> -1
+		    strParam = strParam.ReplaceAll("  ", " ")
+		  Wend
+		  
 		  Return strParam
 		  
 		End Function
@@ -766,25 +770,23 @@ Implements XKItemParser
 		  Var params() As String = node.FirstChild.Value.Split(", ")
 		  Var paramRx As New XKRegex(REGEX_PARAM)
 		  For Each param As String In params
-		    if param.IndexOf("As")=-1 Then
-		      // in case the parameter is something like
-		      // strArrTotalField(, ) As String
-		      // then param will not contain As, as it has been split on the ", )" part
-		      // param will then contain strArrTotalField( 
-		      // and the next param will contain ) As String
-		      // we remember the first part and add the ", " back to it
-		      strParamPart=strParampart + param + ", "
+		    If param.IndexOf("As")= - 1 Then
+		      // In case the parameter is something like `strArrTotalField(, ) As String`
+		      // then `param` will not contain "As", as it has been split on the ", )" part.
+		      // `param` will then contain "strArrTotalField("
+		      // and the next `param` will contain ") As String".
+		      // We remember the first part and add the ", " back to it
+		      strParamPart = strParampart + param + ", "
 		    Else
-		      if strParamPart<>"" then
-		        //if we have a remembered part the we add the part with the As to it
-		        // then we empty the remembered part, since we have processed it
+		      If strParamPart <> "" Then
+		        // If we have a remembered part then we add the part with the "As" to it
+		        // then we empty the remembered part, since we have processed it.
 		        param = strParamPart + param
 		        strParamPart = ""
-		      end if
-		      // clean up the param to remove double spaces
-		      // for instance strParam  As string
-		      // there is a double space between strParam and As
-		      strParam=CleanParam(param)
+		      End If
+		      // Clean up the `param` to remove double spaces.
+		      // For instance "strParam  As string" (there is a double space between `strParam` and `As`).
+		      strParam = CleanParam(param)
 		      If Not paramRx.Match(param) Then
 		        Raise New XKException("Invalid parameter within ""ItemParams"" node.")
 		      Else
