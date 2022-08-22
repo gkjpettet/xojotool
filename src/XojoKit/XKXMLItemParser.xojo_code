@@ -174,10 +174,11 @@ Implements XKItemParser
 		      item.Structures.Add(ParseStructure(node))
 		      
 		    Case "ControlBehavior"
-		      If item.Type = XojoKit.ItemTypes.Window_ Then
-		        // This is an event implement within a control on a window.
-		        // Add any events implemented by this control to this window's events. This is obviously
-		        // incorrect but it's what the project item parser does so for now we will replicate it.
+		      If item.Type = XojoKit.ItemTypes.Window_ Or item.type = XojoKit.ItemTypes.MobileScreen Then
+		        // This is an event implemented within a control on a window or mobile screen.
+		        // Add any events implemented by this control to this window.mobile screen's events. 
+		        // This is obviously incorrect but it's what the project item parser does so for now we
+		        // will replicate it.
 		        ParseControlBehaviourNode(item, node)
 		      End If
 		      

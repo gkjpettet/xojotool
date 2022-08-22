@@ -151,6 +151,9 @@ Protected Module XojoKit
 		  Case XojoKit.ItemTypes.MenuBar_
 		    Return "menuBar"
 		    
+		  Case XojoKit.ItemTypes.MobileScreen
+		    Return "mobile screen"
+		    
 		  Case XojoKit.ItemTypes.Module_
 		    Return "module"
 		    
@@ -232,7 +235,7 @@ Protected Module XojoKit
 	#tag Constant, Name = VERSION_MINOR, Type = Double, Dynamic = False, Default = \"0", Scope = Private
 	#tag EndConstant
 
-	#tag Constant, Name = VERSION_PATCH, Type = Double, Dynamic = False, Default = \"5", Scope = Private
+	#tag Constant, Name = VERSION_PATCH, Type = Double, Dynamic = False, Default = \"6", Scope = Private
 	#tag EndConstant
 
 
@@ -255,7 +258,8 @@ Protected Module XojoKit
 		  FileType_
 		  ImageSet_
 		  Unknown
-		Container
+		  Container
+		MobileScreen
 	#tag EndEnum
 
 	#tag Enum, Name = MemberTypes, Type = Integer, Flags = &h1

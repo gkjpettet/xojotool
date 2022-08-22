@@ -610,7 +610,7 @@ Protected Class XKProject
 		    Case "OrigIDEVersion"
 		      Self.OriginalIDEVersion = value
 		      
-		    Case "Class", "Module", "Interface", "DesktopWindow", "Window"
+		    Case "Class", "Module", "Interface", "DesktopWindow", "Window", "MobileScreen"
 		      // Assert that the path is a known xojo file format.
 		      Var fileFormat As XojoKit.FileFormats = XojoKit.FileFormats.Unknown
 		      If components(COMPONENT_PATH).EndsWith(".xojo_code") Then
@@ -902,6 +902,30 @@ Protected Class XKProject
 		        // Add this item to the project.
 		        Self.Items.Add(item)
 		        
+		      Case "MobileScreen"
+		        // Build this item.
+		        Var item As New XKItem(Self)
+		        item.FileFormat = XojoKit.FileFormats.XML
+		        item.IsExternal = False
+		        item.File = Nil
+		        item.ID = Integer.FromString(block.GetAttribute("ID"))
+		        item.XML = block.Clone(True)
+		        item.Type = XojoKit.ItemTypes.MobileScreen
+		        
+		        For k As Integer = 0 To block.ChildCount - 1
+		          Var node As XmlNode = block.Child(k)
+		          Select Case node.Name
+		          Case "ObjName"
+		            item.Name = node.FirstChild.Value
+		            
+		          Case "ObjContainerID"
+		            item.ParentID = Integer.FromString(node.FirstChild.Value)
+		          End Select
+		        Next k
+		        
+		        // Add this item to the project.
+		        Self.Items.Add(item)
+		        
 		      Case "MultiImage"
 		        #Pragma Warning "TODO: Parse ImageSets"
 		        
@@ -976,6 +1000,9 @@ Protected Class XKProject
 		    
 		  Case XojoKit.ItemTypes.MenuBar_
 		    mMenuBarCount = mMenuBarCount + 1
+		    
+		  Case XojoKit.ItemTypes.MobileScreen
+		    mScreenCount = mScreenCount + 1
 		    
 		  Case XojoKit.ItemTypes.Module_
 		    mModuleCount = mModuleCount + 1
@@ -1208,6 +1235,10 @@ Protected Class XKProject
 		Private mRoot As XojoKit.XKItem
 	#tag EndProperty
 
+	#tag Property, Flags = &h21, Description = 546865206E756D626572206F66204D6F62696C6553637265656E7320696E20746869732070726F6A6563742028694F532070726F6A65637473206F6E6C79292E
+		Private mScreenCount As Integer = 0
+	#tag EndProperty
+
 	#tag Property, Flags = &h21
 		Private mToolBarCount As Integer = 0
 	#tag EndProperty
@@ -1263,6 +1294,18 @@ Protected Class XKProject
 			End Get
 		#tag EndGetter
 		Root As XojoKit.XKItem
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0, Description = 52657475726E732074686520746F74616C206E756D626572206F662073637265656E7320696E20746869732070726F6A6563742028694F532070726F6A65637473206F6E6C79292E20436F6D7075746564206F6E6365206166746572207468652070726F6A6563742069732070617273656420736F20696E657870656E7369766520746F2063616C6C2E
+		#tag Getter
+			Get
+			  Return mScreenCount
+			  
+			  
+			  
+			End Get
+		#tag EndGetter
+		ScreenCount As Integer
 	#tag EndComputedProperty
 
 	#tag Property, Flags = &h0, Description = 5472756520696620746869732070726F6A65637420737570706F727473206461726B206D6F64652E

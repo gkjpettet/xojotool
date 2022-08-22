@@ -1418,7 +1418,7 @@ Implements XKItemParser
 	#tag EndMethod
 
 	#tag Method, Flags = &h21, Description = 50617273657320612057696E646F77436F6465207461672E204D757461746573206069602E204D617920726169736520612060584B457863657074696F6E602E
-		Private Sub ParseWindowCodeTag(ByRef item As XKItem, lines() As String, ByRef i As Integer)
+		Private Sub ParseWindowCodeTag(ByRef item As XojoKit.XKItem, lines() As String, ByRef i As Integer)
 		  /// Parses a WindowCode tag. Mutates `i`. May raise a `XKException`.
 		  ///
 		  /// Assumes `lines` is the contents of `file`.
@@ -1436,8 +1436,18 @@ Implements XKItemParser
 		  #Pragma Unused lines
 		  #Pragma Unused i
 		  
-		  // The item must be a window.
-		  item.Type = XojoKit.ItemTypes.Window_
+		  // The item must be a window (in desktop projects) or a mobile screen (in iOS projects).
+		  If item.Owner = Nil Then
+		    // This shouldn't happen but assume it's a window anyway.
+		    item.Type = XojoKit.ItemTypes.Window_
+		  Else
+		    Select Case item.Owner.Type
+		    Case "iOS"
+		      item.Type = XojoKit.ItemTypes.MobileScreen
+		    Else
+		      item.Type = XojoKit.ItemTypes.Window_
+		    End Select
+		  End If
 		  
 		End Sub
 	#tag EndMethod

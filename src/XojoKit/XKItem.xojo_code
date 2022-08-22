@@ -451,7 +451,13 @@ Protected Class XKItem
 			Group="Behavior"
 			InitialValue="XojoKit.FileFormats.Project"
 			Type="XojoKit.FileFormats"
-			EditorType=""
+			EditorType="Enum"
+			#tag EnumValues
+				"0 - Project"
+				"1 - Unknown"
+				"2 - XML"
+				"3 - Window"
+			#tag EndEnumValues
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Scope"
@@ -459,7 +465,13 @@ Protected Class XKItem
 			Group="Behavior"
 			InitialValue="XojoKit.Scopes.Public_"
 			Type="XojoKit.Scopes"
-			EditorType=""
+			EditorType="Enum"
+			#tag EnumValues
+				"0 - Public_"
+				"1 - Private_"
+				"2 - Protected_"
+				"3 - Global_"
+			#tag EndEnumValues
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Type"
@@ -467,7 +479,22 @@ Protected Class XKItem
 			Group="Behavior"
 			InitialValue="XojoKit.ItemTypes.Unknown"
 			Type="XojoKit.ItemTypes"
-			EditorType=""
+			EditorType="Enum"
+			#tag EnumValues
+				"0 - Class_"
+				"1 - Interface_"
+				"2 - Module_"
+				"3 - Folder"
+				"4 - Root"
+				"5 - Window_"
+				"6 - MenuBar_"
+				"7 - ToolBar_"
+				"8 - FileType_"
+				"9 - ImageSet_"
+				"10 - Unknown"
+				"11 - Container"
+				"12 - MobileScreen"
+			#tag EndEnumValues
 		#tag EndViewProperty
 	#tag EndViewBehavior
 End Class

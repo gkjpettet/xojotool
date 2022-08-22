@@ -62,6 +62,7 @@ Inherits ConsoleApplication
 		    
 		  End If
 		  
+		  
 		End Function
 	#tag EndEvent
 
@@ -349,13 +350,14 @@ Inherits ConsoleApplication
 		  // ===================
 		  // HEADER
 		  // ===================
+		  Var windows As String = If(Project.Type = "iOS", "Screens", "Windows")
 		  Var header As String = _
-		  ConsoleKit.CLIFormatted("Classes   Interfaces   Modules   Windows   Containers", _
+		  ConsoleKit.CLIFormatted("Classes   Interfaces   Modules   " + windows + "   Containers", _
 		  True, False, False, ConsoleKit.Colors.Blue)
 		  
-		  Print("-----------------------------------------------------")
+		  Print(RepeatString("-", header.Length))
 		  Print(header)
-		  Print("-----------------------------------------------------")
+		  Print(RepeatString("-", header.Length))
 		  
 		  // ===================
 		  // ITEM COUNTS
@@ -364,7 +366,11 @@ Inherits ConsoleApplication
 		  classString = Project.ClassCount.ToString.JustifyLeft(10)
 		  interfaceString = Project.InterfaceCount.ToString.JustifyLeft(13)
 		  modString = Project.ModuleCount.ToString.JustifyLeft(10)
-		  windowString = Project.WindowCount.ToString.JustifyLeft(10)
+		  If Project.Type = "iOS" Then
+		    windowString = Project.ScreenCount.ToString.JustifyLeft(10)
+		  Else
+		    windowString = Project.WindowCount.ToString.JustifyLeft(10)
+		  End If
 		  containerString = Project.ContainerCount.ToString
 		  Print(classString + interfaceString + modString + windowString + containerString)
 		  Print("")
